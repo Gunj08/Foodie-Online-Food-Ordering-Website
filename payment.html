@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Payment - Foodie (Demo)</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding: 2rem;
+            background: var(--eye-ball);
+        }
+
+        .bill {
+            max-width: 900px;
+            margin: auto;
+            background: var(--pure-white);
+            padding: 1.6rem;
+            border-radius: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.08) 0 6px 18px;
+            color: var(--lead);
+            font-size: 1rem;
+        }
+
+        .bill h2 {
+            margin-bottom: .6rem;
+        }
+
+        .bill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .bill-meta {
+            text-align: right;
+            color: gray;
+            font-size: .95rem;
+        }
+
+        .bill-list {
+            margin-top: 1rem;
+            border-top: .05rem solid rgba(0, 0, 0, .06);
+            padding-top: .6rem;
+        }
+
+        .bill-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: .6rem 0;
+            border-bottom: .05rem solid rgba(0, 0, 0, .06);
+        }
+
+        .bill-item img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: .6rem;
+        }
+
+        .bill-item .item-name {
+            font-weight: 600;
+        }
+
+        .bill-item .item-qty {
+            color: gray;
+            font-size: .9rem;
+        }
+
+        .bill-item .item-total {
+            margin-left: auto;
+            font-weight: 700;
+        }
+
+        .bill-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .bill-footer .total-wrap {
+            text-align: right;
+        }
+
+        .print-btn {
+            background: var(--gold-finger);
+            color: var(--lead);
+            padding: .6rem 1.2rem;
+            border-radius: .6rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pay-now {
+            background: var(--lead);
+            color: var(--pure-white);
+            padding: .6rem 1.2rem;
+            border-radius: .6rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Print styles: hide buttons and make bill full width */
+        @media print {
+            body { padding: 0; }
+            .print-hide { display: none !important; }
+            .bill { box-shadow: none; border-radius: 0; max-width: 100%; margin: 0; }
+            .bill-header, .bill-footer { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bill" role="document" id="billRoot">
+        <div class="bill-header">
+            <div>
+                <h2>Foodie — Payment Receipt (Demo)</h2>
+                <div>Thank you for your order.</div>
+            </div>
+            <div class="bill-meta" id="billMeta">
+                <!-- filled by JS -->
+            </div>
+        </div>
+
+        <div class="bill-list" id="billList"></div>
+
+        <div class="bill-footer">
+            <div class="total-wrap">
+                <div id="grandTotal">Total: $0.00</div>
+            </div>
+            <div class="actions print-hide">
+                <button id="printBill" class="print-btn">Print / Save PDF</button>
+                <button id="fakePay" class="pay-now">Finish (Demo)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // render items from sessionStorage
+        const items = JSON.parse(sessionStorage.getItem('checkoutCart') || '[]');
+        const billList = document.getElementById('billList');
+        let total = 0;
+
+        // meta
+        const billMeta = document.getElementById('billMeta');
+        const orderId = 'FD-' + Date.now().toString().slice(-6);
+        const now = new Date();
+        billMeta.innerHTML = `<div>Order: ${orderId}</div><div>${now.toLocaleString()}</div>`;
+
+        if (items.length === 0) {
+            billList.innerHTML = '<p>Your cart is empty. Go back and add items.</p>';
+        } else {
+            items.forEach(it => {
+                // ensure we have values
+                const qty = Number(it.qty) || 1;
+                const subtotal = parseFloat(String(it.total).replace('$', '')) || 0;
+                const unit = qty ? (subtotal / qty) : subtotal;
+
+                const el = document.createElement('div'); el.className = 'bill-item';
+                el.innerHTML = `
+                    <img src="${it.img}" alt="${it.name}">
+                    <div>
+                        <div class="item-name">${it.name}</div>
+                        <div class="item-qty">Unit: $${unit.toFixed(2)} × ${qty}</div>
+                    </div>
+                    <div class="item-total">$${subtotal.toFixed(2)}</div>
+                `;
+                billList.appendChild(el);
+                total += subtotal;
+            });
+        }
+        document.getElementById('grandTotal').textContent = 'Total: $' + total.toFixed(2);
+
+        document.getElementById('printBill').addEventListener('click', () => {
+            // optional: add a short breakfast header when printing
+            window.print();
+        });
+
+        document.getElementById('fakePay').addEventListener('click', () => {
+            alert('Payment simulated (demo). Thank you!');
+            sessionStorage.removeItem('checkoutCart');
+            // also remove cartItems to clear persisted cart
+            sessionStorage.removeItem('cartItems');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

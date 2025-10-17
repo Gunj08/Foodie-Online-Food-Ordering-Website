@@ -30,6 +30,6 @@ Foodie/
 
 ## 📸 Screenshots
 
- ![Quiz Screenshot](https://github.com/Gunj08/-Quiz-Application/blob/main/Screenshot%202025-09-22%20102823.png?raw=true)
+ ![Quiz Screenshot](https://github.com/Gunj08/Foodie-Online-Food-Ordering-Website/blob/main/Screenshot%202025-10-17%20185912.png?raw=true)
  ![Quiz Screenshot](https://github.com/Gunj08/-Quiz-Application/blob/main/Screenshot%202025-09-22%20102909.png?raw=true)
  ![Quiz Screenshot](https://github.com/Gunj08/-Quiz-Application/blob/main/Screenshot%202025-09-22%20103004.png?raw=true)

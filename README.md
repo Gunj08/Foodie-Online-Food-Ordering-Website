@@ -106,8 +106,7 @@ foodie-delivery/
 
 ## 👤 Author
 
-**Shubham Gupta**
-- GitHub: [@shubhamrdg](https://github.com/shubhamrdg)
+
 - Email: [gunjankumarikushwaha080@gmail.com](mailto:gunjankumarikushwaha080@gmail.com)
 
 ## 📝 License

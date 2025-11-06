@@ -104,6 +104,13 @@ foodie-delivery/
 4. Push to branch (`git push origin feature/YourFeature`)
 5. Open a Pull Request
 
+## Public URL 
+   https://gunj08.github.io/Foodie-Online-Food-Ordering-Website/
+
+
+
+---
+
 ## 👤 Author
 
 
@@ -116,4 +123,5 @@ This project is [ISC](https://choosealicense.com/licenses/isc/) licensed.
 ---
 
 ⭐ Star this repo if you found it helpful!
+
 
